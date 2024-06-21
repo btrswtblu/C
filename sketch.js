@@ -71,6 +71,14 @@ function setup() {
     updateAliceImage();
   }, 500); // 0.5초마다 실행
 
+  // 0.2초마다 마지막 이미지 교체
+  setInterval(() => {
+    if (rectWidth >= 100) {
+      imageIndex = (imageIndex + 1) % 2; // 0과 1을 번갈아 가리키는 인덱스
+      updateAliceImage();
+    }
+  }, 200); // 0.2초마다 실행
+
   initializeGame();
 }
 
@@ -157,8 +165,8 @@ function draw() {
 
   drawSprites();
 
-   // 고정된 박스들을 '토끼굴.png'로 대체하여 그리기
-   for (let i = 0; i < fixedBoxes.length; i++) {
+  // 고정된 박스들을 '토끼굴.png'로 대체하여 그리기
+  for (let i = 0; i < fixedBoxes.length; i++) {
     let box = fixedBoxes[i];
     image(holeImage, box.position.x - box.width / 2, box.position.y - box.height / 2, box.width, box.height);
   }
@@ -179,8 +187,6 @@ function draw() {
     let box = boxes2[i];
     image(rabbitImage, box.position.x - box.width / 2, box.position.y - box.height / 2, box.width, box.height);
   }
-
- 
 }
 
 function drawScore(score, x, y, imageWidth, imageHeight) {
@@ -321,13 +327,13 @@ function initializeGame() {
   alice = createSprite(200, 200, rectWidth, rectHeight);
   alice.shapeColor = color(0, 0, 255, 0); // 투명색으로 변경
 
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 1; i++) {
     let box = createSprite(random((width - areaWidth) / 2, (width + areaWidth) / 2 - 44), random((height - areaHeight) / 2, (height + areaHeight) / 2 - 60), 44, 60);
     box.shapeColor = color(0, 255, 0, 0); // 반투명 초록
     boxes1.add(box);
   }
 
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 1; i++) {
     let box = createSprite(random((width - areaWidth) / 2, (width + areaWidth) / 2 - 77), random((height - areaHeight) / 2, (height + areaHeight) / 2 - 105), 77, 105);
     box.shapeColor = color(255, 105, 180, 0); // 반투명 핑크
     boxes2.add(box);
