@@ -64,7 +64,7 @@ function setup() {
   setInterval(() => {
     imageIndex = (imageIndex + 1) % 2; // 0과 1을 번갈아 가리키는 인덱스
     currentImage = imageIndex === 0 ? aliceImage : aliceImage1; // 이미지 교체
-  }, 1000); // 1초마다 실행
+  }, 500); // 1초마다 실행
 
   initializeGame();
 }
