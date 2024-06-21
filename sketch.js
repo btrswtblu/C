@@ -24,6 +24,7 @@ let currentImage; // 현재 이미지를 저장할 변수
 let imageIndex = 0; // 이미지를 번갈아 가리키기 위한 인덱스
 let rabbitImage; // 토끼 이미지를 저장할 변수
 let scoreImage; // 점수 이미지를 저장할 변수
+let holeImage; // 토끼굴 이미지를 저장할 변수
 
 let numberImages = {}; // 숫자 이미지를 저장할 객체
 let minusImage; // 마이너스 기호 이미지를 저장할 변수
@@ -33,6 +34,7 @@ function preload() {
   aliceImage1 = loadImage('앨리스1.png'); // 이미지1 로드
   rabbitImage = loadImage('토끼.png'); // 토끼 이미지 로드
   scoreImage = loadImage('score.png'); // 점수 이미지 로드
+  holeImage = loadImage('토끼굴.png'); // 토끼굴 이미지 로드
 
   // 숫자와 마이너스 기호 이미지를 로드
   for (let i = 0; i < 10; i++) {
@@ -140,11 +142,19 @@ function draw() {
 
   drawSprites();
 
+    // 고정된 박스들을 '토끼굴.png'로 대체하여 그리기
+    for (let i = 0; i < fixedBoxes.length; i++) {
+      let box = fixedBoxes[i];
+      image(holeImage, box.position.x - box.width / 2, box.position.y - box.height / 2, box.width, box.height);
+    }
+
   // 앨리스 이미지를 캔버스에 그리기
   image(currentImage, alice.position.x - alice.width / 2, alice.position.y - alice.height / 2, alice.width, alice.height);
 
   // 점수 변화를 그리기
   displayScoreChanges();
+
+ 
 
   // 초록색 네모들을 '토끼.png'로 대체하여 그리기
   for (let i = 0; i < boxes1.length; i++) {
@@ -157,6 +167,8 @@ function draw() {
     let box = boxes2[i];
     image(rabbitImage, box.position.x - box.width / 2, box.position.y - box.height / 2, box.width, box.height);
   }
+
+ 
 }
 
 function drawScore(score, x, y, imageWidth, imageHeight) {
@@ -285,12 +297,12 @@ function initializeGame() {
 
   for (let i = 0; i < 2; i++) {
     let box = createSprite(random((width - areaWidth) / 2, (width + areaWidth) / 2 - 80), random((height - areaHeight) / 2, (height + areaHeight) / 2 - 80), 80, 80);
-    box.shapeColor = color(0, 0, 0); // 검정 색 80 크기
+    box.shapeColor = color(0, 0, 0, 0); // 투명 색
     fixedBoxes.add(box);
   }
   for (let i = 0; i < 1; i++) {
     let box = createSprite(random((width - areaWidth) / 2, (width + areaWidth) / 2 - 120), random((height - areaHeight) / 2, (height + areaHeight) / 2 - 120), 120, 120);
-    box.shapeColor = color(0, 0, 0); // 검정 색 120 크기
+    box.shapeColor = color(0, 0, 0, 0); // 투명 색
     fixedBoxes.add(box);
   }
 
@@ -320,4 +332,3 @@ function resetGame() {
   // 게임 초기화
   initializeGame();
 }
-
