@@ -2,8 +2,9 @@ let video;
 let poseNet;
 let poses = [];
 var alice;
-var aliceImage; // 앨리스 이미지를 저장할 변수
-var aliceImage1; // 앨리스1 이미지를 저장할 변수
+var aliceImage, aliceImage1; // 앨리스 이미지를 저장할 변수
+var aliceMediumImage, aliceMediumImage1; // 앨리스 중간 이미지를 저장할 변수
+var aliceFinalImage, aliceFinalImage1; // 앨리스 마지막 이미지를 저장할 변수
 var boxes1, boxes2;
 var fixedBoxes;
 let scoreChanges = []; // 점수 변화를 저장할 배열
@@ -32,6 +33,10 @@ let minusImage; // 마이너스 기호 이미지를 저장할 변수
 function preload() {
   aliceImage = loadImage('앨리스.png'); // 이미지 로드
   aliceImage1 = loadImage('앨리스1.png'); // 이미지1 로드
+  aliceMediumImage = loadImage('앨리스중간.png'); // 앨리스 중간 이미지 로드
+  aliceMediumImage1 = loadImage('앨리스중간1.png'); // 앨리스 중간1 이미지 로드
+  aliceFinalImage = loadImage('앨리스마지막.png'); // 앨리스 마지막 이미지 로드
+  aliceFinalImage1 = loadImage('앨리스마지막1.png'); // 앨리스 마지막1 이미지 로드
   rabbitImage = loadImage('토끼.png'); // 토끼 이미지 로드
   scoreImage = loadImage('score.png'); // 점수 이미지 로드
   holeImage = loadImage('토끼굴.png'); // 토끼굴 이미지 로드
@@ -63,10 +68,20 @@ function setup() {
   // 이미지 교체를 위한 setInterval 함수 설정
   setInterval(() => {
     imageIndex = (imageIndex + 1) % 2; // 0과 1을 번갈아 가리키는 인덱스
-    currentImage = imageIndex === 0 ? aliceImage : aliceImage1; // 이미지 교체
-  }, 500); // 1초마다 실행
+    updateAliceImage();
+  }, 500); // 0.5초마다 실행
 
   initializeGame();
+}
+
+function updateAliceImage() {
+  if (rectWidth < 65) {
+    currentImage = imageIndex === 0 ? aliceImage : aliceImage1; // 65픽셀 미만일 때 이미지 교체
+  } else if (rectWidth >= 65 && rectWidth < 100) {
+    currentImage = imageIndex === 0 ? aliceMediumImage : aliceMediumImage1; // 65픽셀 이상, 100픽셀 미만일 때 이미지 교체
+  } else {
+    currentImage = imageIndex === 0 ? aliceFinalImage : aliceFinalImage1; // 100픽셀 이상일 때 이미지 교체
+  }
 }
 
 function modelReady() {
@@ -142,19 +157,16 @@ function draw() {
 
   drawSprites();
 
-    // 고정된 박스들을 '토끼굴.png'로 대체하여 그리기
-    for (let i = 0; i < fixedBoxes.length; i++) {
-      let box = fixedBoxes[i];
-      image(holeImage, box.position.x - box.width / 2, box.position.y - box.height / 2, box.width, box.height);
-    }
-
+   // 고정된 박스들을 '토끼굴.png'로 대체하여 그리기
+   for (let i = 0; i < fixedBoxes.length; i++) {
+    let box = fixedBoxes[i];
+    image(holeImage, box.position.x - box.width / 2, box.position.y - box.height / 2, box.width, box.height);
+  }
   // 앨리스 이미지를 캔버스에 그리기
   image(currentImage, alice.position.x - alice.width / 2, alice.position.y - alice.height / 2, alice.width, alice.height);
 
   // 점수 변화를 그리기
   displayScoreChanges();
-
- 
 
   // 초록색 네모들을 '토끼.png'로 대체하여 그리기
   for (let i = 0; i < boxes1.length; i++) {
@@ -309,13 +321,13 @@ function initializeGame() {
   alice = createSprite(200, 200, rectWidth, rectHeight);
   alice.shapeColor = color(0, 0, 255, 0); // 투명색으로 변경
 
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 1; i++) {
     let box = createSprite(random((width - areaWidth) / 2, (width + areaWidth) / 2 - 44), random((height - areaHeight) / 2, (height + areaHeight) / 2 - 60), 44, 60);
     box.shapeColor = color(0, 255, 0, 0); // 반투명 초록
     boxes1.add(box);
   }
 
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 1; i++) {
     let box = createSprite(random((width - areaWidth) / 2, (width + areaWidth) / 2 - 77), random((height - areaHeight) / 2, (height + areaHeight) / 2 - 105), 77, 105);
     box.shapeColor = color(255, 105, 180, 0); // 반투명 핑크
     boxes2.add(box);
