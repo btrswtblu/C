@@ -321,13 +321,13 @@ function initializeGame() {
   alice = createSprite(200, 200, rectWidth, rectHeight);
   alice.shapeColor = color(0, 0, 255, 0); // 투명색으로 변경
 
-  for (let i = 0; i < 1; i++) {
+  for (let i = 0; i < 10; i++) {
     let box = createSprite(random((width - areaWidth) / 2, (width + areaWidth) / 2 - 44), random((height - areaHeight) / 2, (height + areaHeight) / 2 - 60), 44, 60);
     box.shapeColor = color(0, 255, 0, 0); // 반투명 초록
     boxes1.add(box);
   }
 
-  for (let i = 0; i < 1; i++) {
+  for (let i = 0; i < 10; i++) {
     let box = createSprite(random((width - areaWidth) / 2, (width + areaWidth) / 2 - 77), random((height - areaHeight) / 2, (height + areaHeight) / 2 - 105), 77, 105);
     box.shapeColor = color(255, 105, 180, 0); // 반투명 핑크
     boxes2.add(box);
